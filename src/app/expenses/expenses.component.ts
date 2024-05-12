@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { EXPENSES } from '../mock-expenses';
 import { Expense } from '../expense';
 import { ExpenseService } from '../expense.service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-expenses',
@@ -11,27 +12,35 @@ import { ExpenseService } from '../expense.service';
 export class ExpensesComponent {
   expenses: Expense[] = [];
   total: number = 0;
+
   constructor(private expenseService: ExpenseService) {}
 
-  getExpenses(): void {
-    this.expenses = this.expenseService.getExpenses();
-  }
+  // getExpenses(): void {
+  //   this.expenseService
+  //     .getExpenses()
+  //     .subscribe((expenses) => (this.expenses = expenses));
+  //   this.getTotal();
+  // }
 
   getTotal(): void {
-    this.total = this.expenseService.getTotal();
-  }
-
-  updateTotal(): number {
-    return this.expenses.reduce((total, expense) => total + expense.amount, 0);
+    this.expenseService.getTotal().subscribe((total) => (this.total = total));
   }
 
   ngOnInit(): void {
-    this.getExpenses();
-    this.getTotal();
+    this.expenseService
+      .getExpenses()
+      .pipe(
+        switchMap((expenses) => {
+          this.expenses = expenses;
+          return this.expenseService.getTotal();
+        })
+      )
+      .subscribe((total) => (this.total = total));
   }
 
   delete(expense: Expense): void {
-    this.expenses = this.expenses.filter((exp) => exp !== expense );
-    this.total = this.updateTotal();
+    this.expenses = this.expenses.filter((exp) => exp !== expense);
+    this.expenseService.setExpenses(this.expenses);
+    this.getTotal();
   }
 }

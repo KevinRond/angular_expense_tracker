@@ -1,0 +1,1 @@
+export const EXPENSECATEGORIES: string[] = ['Groceries', 'Utilities', 'Entertainement'];

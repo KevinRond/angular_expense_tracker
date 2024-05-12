@@ -1,0 +1,9 @@
+<div>
+    <select class='form-select' (change)="onCategoryChange($event)">
+        <option [value]="">All Categories</option>
+        @for (category of categories; track category){
+            <option [value]="category">{{category}}</option>
+        }
+    </select>
+    <p>{{selectedCategory}}</p>
+</div>
