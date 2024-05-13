@@ -1,0 +1,23 @@
+<h2>New Expense</h2>
+<div>
+    <div>
+        <label for="Description">Description</label>
+        <input id="description" placeholder="Description" [(ngModel)]="expense.description">
+        <!-- <p>{{description}}</p> -->
+    </div>
+    <div>
+        <label for="Amount">Amount</label>
+        <input type='number 'id="amount" placeholder="Amount" [(ngModel)]="expense.amount">
+    </div>
+    <div>
+        <label for="Category">Category</label>
+        <select class='form-select' [(ngModel)]="expense.category">
+            @for (category of categories; track category){
+                <option [value]="category">{{category}}</option>
+            }
+        </select>
+        <p>{{expense.category}}</p>
+    </div>
+    <button type="button" (click)="addExpense()">Save</button>
+</div>
+<app-messages></app-messages>
