@@ -47,6 +47,7 @@ export class ExpenseService {
   }
 
   getTotal(): Observable<number> {
+    this.calculateTotal();
     return this.totalSubject.asObservable();
   }
 
@@ -68,9 +69,9 @@ export class ExpenseService {
 
   private calculateTotal(): void {
     const newTotal = this.expenses.reduce((total, exp) => {
-      this.messageService.add(`Adding total: ${total} + ${exp.amount}`);
+      // this.messageService.add(`Adding total: ${total} + ${exp.amount}`);
       return total + exp.amount;}, 0);
-      this.messageService.add(`total is ${newTotal}`);
+      // this.messageService.add(`total is ${newTotal}`);
     this.totalSubject.next(newTotal);
   }
 

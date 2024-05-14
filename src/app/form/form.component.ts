@@ -10,6 +10,7 @@ import { EXPENSECATEGORIES } from '../category';
 })
 export class FormComponent {
   categories: string[] = EXPENSECATEGORIES;
+  fuckedAmount: number = 0;
   expense: Expense = {id: -1, description: '', amount: 0, category: ''}
 
   constructor(private expenseService: ExpenseService) {}
@@ -25,8 +26,9 @@ export class FormComponent {
     if (lowestAvailableId === null) {
       lowestAvailableId = this.expenseService.getIds().length;
     }
+    this.expense.amount = (+this.fuckedAmount);
     this.expense.id = lowestAvailableId;
-    const newExpense = {...this.expense, id: lowestAvailableId};
+    const newExpense = {...this.expense, id: lowestAvailableId, amount: this.expense.amount};
 
     this.expenseService.addExpense(newExpense);
   }
